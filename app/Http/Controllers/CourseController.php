@@ -23,10 +23,12 @@ class CourseController extends Controller
     {
         $request->validate([
             'title' => 'required',
+            'description' => 'string',
         ]);
 
         $course = Course::create([
             'title' => $request->title,
+            'description' => $request->description,
         ]);
 
         return response()->json($course, 201);
@@ -47,9 +49,12 @@ class CourseController extends Controller
     {
         $request->validate([
             'title' => 'required',
+            'description' => 'string',
         ]);
 
         $course->title = $request->title;
+        $course->description = $request->description;
+
         if ($course->isDirty())
             $course->save();
     }

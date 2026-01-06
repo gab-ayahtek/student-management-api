@@ -13,6 +13,9 @@ Route::get('/user', function (Request $request) {
 Route::apiResource('students', StudentController::class);
 Route::apiResource('courses', CourseController::class);
 
+Route::get('/courses/search/{searchString}', [CourseController::class, 'search']);
+Route::get('/students/search/{searchString}', [StudentController::class, 'search']);
+
 // add student to a course
 Route::post('/students/{student}/courses/{course}', [CourseStudentController::class, 'addStudentToCourse']);
 // remove student from a course

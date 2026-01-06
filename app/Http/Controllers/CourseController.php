@@ -17,14 +17,6 @@ class CourseController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
@@ -46,14 +38,6 @@ class CourseController extends Controller
     public function show(Course $course)
     {
         return $course;
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Course $course)
-    {
-        //
     }
 
     /**
@@ -89,5 +73,13 @@ class CourseController extends Controller
         }
 
         return response()->json($res);
+    }
+
+    public function search(String $searchString)
+    {
+        $searchTerm = '%' . $searchString . '%';
+        return Course::where('id', 'LIKE', $searchTerm)
+            ->orWhereRaw('LOWER(title) LIKE ?', [strtolower($searchTerm)])
+            ->get();
     }
 }

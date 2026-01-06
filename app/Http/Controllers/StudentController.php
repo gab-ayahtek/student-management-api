@@ -84,4 +84,13 @@ class StudentController extends Controller
 
         return response()->json($res);
     }
+
+    public function search(String $searchString)
+    {
+        $searchTerm = '%' . $searchString . '%';
+        return Student::where('id', 'LIKE', $searchTerm)
+            ->orWhereRaw('LOWER(first_name) LIKE ?', [strtolower($searchTerm)])
+            ->orWhereRaw('LOWER(last_name) LIKE ?', [strtolower($searchTerm)])
+            ->get();
+    }
 }

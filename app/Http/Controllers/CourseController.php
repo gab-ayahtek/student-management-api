@@ -74,7 +74,10 @@ class CourseController extends Controller
     {
         $res = [];
         foreach ($course->students as $student) {
-            $res[] = $student->first_name . ' ' . $student->last_name;
+            $arr = [];
+            $arr['id'] = $student->id;
+            $arr['name'] = $student->first_name . ' ' . $student->last_name;
+            $res[] = $arr;
         }
 
         return response()->json($res);

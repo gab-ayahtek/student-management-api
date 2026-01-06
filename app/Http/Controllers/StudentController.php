@@ -10,7 +10,7 @@ class StudentController extends Controller
     private function validate(Request $request)
     {
         $request->validate([
-            'email' => 'required|email|unique:students',
+            'email' => 'required|email',
             'first_name' => 'required',
             'last_name' => 'required',
             'address' => 'required',
@@ -22,7 +22,7 @@ class StudentController extends Controller
      */
     public function index()
     {
-        return Student::all();
+        return Student::orderByDesc('id')->get();
     }
 
     /**
@@ -30,6 +30,7 @@ class StudentController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate(['email' => 'unique:students']);
         $this->validate($request);
         $student = Student::create([
             'email' => $request->email,
@@ -79,7 +80,10 @@ class StudentController extends Controller
     {
         $res = [];
         foreach ($student->courses as $course) {
-            $res[] = $course->title;
+            $arr = [];
+            $arr['id'] = $course->id;
+            $arr['title'] = $course->title;
+            $res[] = $arr;
         }
 
         return response()->json($res);

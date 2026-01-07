@@ -22,7 +22,7 @@ class StudentController extends Controller
      */
     public function index()
     {
-        return Student::orderByDesc('id')->get();
+        return Student::orderByDesc('id')->paginate(5);
     }
 
     /**
